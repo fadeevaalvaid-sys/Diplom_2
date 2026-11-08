@@ -1,6 +1,10 @@
 import allure
 
 from api_client import create_user
+from data import (
+    USER_ALREADY_EXISTS_MESSAGE,
+    REQUIRED_FIELDS_MESSAGE
+)
 
 
 class TestUserRegistration:
@@ -17,7 +21,7 @@ class TestUserRegistration:
         response = create_user(registered_user["data"])
 
         assert response.status_code == 403
-        assert response.json()["message"] == "User already exists"
+        assert response.json()["message"] == USER_ALREADY_EXISTS_MESSAGE
 
     @allure.title("Создание пользователя без обязательного поля")
     def test_create_user_without_name(self, user_data):
@@ -25,6 +29,4 @@ class TestUserRegistration:
         response = create_user(user_data)
 
         assert response.status_code == 403
-        assert response.json()["message"] == (
-            "Email, password and name are required fields"
-        )
+        assert response.json()["message"] == REQUIRED_FIELDS_MESSAGE

@@ -1,14 +1,14 @@
-import uuid
 import pytest
 
 from api_client import create_user, delete_user
 from data import USER_PASSWORD, USER_NAME
+from helpers import generate_email
 
 
 @pytest.fixture
 def user_data():
     return {
-        "email": f"qa_diplom_{uuid.uuid4().hex}@yandex.ru",
+        "email": generate_email(),
         "password": USER_PASSWORD,
         "name": USER_NAME
     }

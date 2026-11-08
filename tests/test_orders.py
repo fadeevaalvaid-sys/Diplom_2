@@ -1,8 +1,12 @@
-
 import allure
 
 from api_client import create_order
-from data import VALID_INGREDIENTS, INVALID_INGREDIENT
+from data import (
+    VALID_INGREDIENTS,
+    INVALID_INGREDIENT,
+    EMPTY_INGREDIENTS_MESSAGE,
+    INVALID_INGREDIENT_MESSAGE
+)
 
 
 class TestCreateOrder:
@@ -43,9 +47,7 @@ class TestCreateOrder:
 
         assert response.status_code == 400
         assert response.json()["success"] is False
-        assert response.json()["message"] == (
-            "Ingredient ids must be provided"
-        )
+        assert response.json()["message"] == EMPTY_INGREDIENTS_MESSAGE
 
     @allure.title("Создание заказа с неверным хешем ингредиента")
     def test_create_order_with_invalid_ingredient(self):
@@ -53,6 +55,4 @@ class TestCreateOrder:
 
         assert response.status_code == 400
         assert response.json()["success"] is False
-        assert response.json()["message"] == (
-            "One or more ids provided are incorrect"
-        )
+        assert response.json()["message"] == INVALID_INGREDIENT_MESSAGE

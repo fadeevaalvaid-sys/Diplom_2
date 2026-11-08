@@ -1,6 +1,11 @@
 import allure
 
 from api_client import login_user
+from data import (
+    WRONG_EMAIL,
+    WRONG_PASSWORD,
+    INCORRECT_CREDENTIALS_MESSAGE
+)
 
 
 class TestUserLogin:
@@ -17,13 +22,13 @@ class TestUserLogin:
     @allure.title("Авторизация с неверным логином и паролем")
     def test_login_with_wrong_email_and_password(self, registered_user):
         user_data = registered_user["data"].copy()
-        user_data["email"] = "wrong_email@example.com"
-        user_data["password"] = "WrongPassword123"
+        user_data["email"] = WRONG_EMAIL
+        user_data["password"] = WRONG_PASSWORD
 
         response = login_user(user_data)
 
         assert response.status_code == 401
         assert response.json()["success"] is False
         assert response.json()["message"] == (
-            "email or password are incorrect"
+            INCORRECT_CREDENTIALS_MESSAGE
         )
